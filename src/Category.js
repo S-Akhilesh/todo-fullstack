@@ -107,7 +107,7 @@ const Category = () => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
-        <input type="submit" value="Add Category" />
+        <input type="submit" value={edit ? "Edit Category" : "Add Category"} />
         <Link to="/todos">View todo</Link>
       </form>
       {categories?.map((category) => {

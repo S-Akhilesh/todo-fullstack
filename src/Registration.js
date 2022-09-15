@@ -10,7 +10,7 @@ export const Registration = () => {
   const [password, setPassword] = useState();
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
     if (token) {
       window.location.href = "/todos";
     }
@@ -119,7 +119,6 @@ export const Registration = () => {
           </form>
         )}
       </div>
-      <Link to="/todos">TODO</Link>
     </div>
   );
 };

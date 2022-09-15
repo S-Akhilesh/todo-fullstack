@@ -33,6 +33,7 @@ select {
   padding: 10px;
   outline: none;
   border: none;
+  border-bottom: 1px solid #000;
 }
 
 form input:nth-child(1) {
@@ -45,10 +46,11 @@ form input:nth-child(1) {
   align-items: center;
   margin: 10px;
   width: 300px;
-  border: 1px solid #000;
+  border: 1px solid rgba(0, 0, 0, 0.203);
   border-radius: 10px;
   padding: 10px;
   font-size: 20px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.203);
 }
 
 .icons {

@@ -61,4 +61,5 @@ input[type="submit"] {
   background: #4a63a9;
   color: aliceblue;
   cursor: pointer;
+  border-radius: 8px;
 }

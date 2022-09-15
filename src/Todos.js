@@ -9,7 +9,10 @@ import { BsFillPencilFill } from "react-icons/bs";
 const Todos = () => {
   const [todos, setTodos] = useState();
   const [todo, setTodo] = useState("");
-  const [category, setCategory] = useState({});
+  const [edit, setEdit] = useState(false);
+  const [todoId, setTodoId] = useState();
+  const [statusId, setStatusId] = useState();
+  const [category, setCategory] = useState();
   const [categories, setCategories] = useState();
 
   useEffect(() => {
@@ -54,13 +57,53 @@ const Todos = () => {
     e.preventDefault();
     if (todo === "" || category === undefined || category === "Select Category")
       return;
+    let response;
+    if (edit) {
+      const obj = {
+        name: todo,
+        category_id: category,
+        status_id: statusId,
+      };
+      response = await axios.patch(
+        `${process.env.REACT_APP_API_URL}/todo/${todoId}`,
+        obj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    } else {
+      const obj = {
+        name: todo,
+        category_id: category,
+        status_id: 1,
+      };
+      response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/todo/create`,
+        obj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+    }
+    if (response.status === 200) {
+      getTodo();
+    }
+    setTodo("");
+    setEdit(false);
+  };
+
+  const changeTodoStatus = async (id, statusId) => {
+    if (statusId === 3) statusId = 0;
+
     const obj = {
-      name: todo,
-      category_id: category,
-      status_id: 1,
+      status_id: statusId + 1,
     };
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/todo/create`,
+    const response = await axios.patch(
+      `${process.env.REACT_APP_API_URL}/todo/${id}`,
       obj,
       {
         headers: {
@@ -71,7 +114,6 @@ const Todos = () => {
     if (response.status === 200) {
       getTodo();
     }
-    setTodo("");
   };
 
   const deleteTodo = async (id) => {
@@ -88,6 +130,20 @@ const Todos = () => {
     }
   };
 
+  const editTodo = (todo) => {
+    setEdit(true);
+    setTodoId(todo.id);
+    setCategory(todo.category_id);
+    setStatusId(todo.status_id);
+    setTodo(todo.name);
+  };
+
+  const sortArray = () => {
+    let arr = [...todos];
+    arr.sort((a, b) => a.category_id - b.category_id);
+    setTodos(arr);
+  };
+
   return (
     <div className="todos">
       <div className="todos__header">
@@ -99,7 +155,7 @@ const Todos = () => {
             onChange={(e) => setTodo(e.target.value)}
           />
           <select onChange={(event) => setCategory(event.target.value)}>
-            <option value="Select Category">Select Category</option>
+            <option value={category}>Select Category</option>
             {categories?.map((category, id) => {
               return (
                 <option key={id} value={category.id}>
@@ -108,23 +164,39 @@ const Todos = () => {
               );
             })}
           </select>
-          <input type="submit" value="Add todo" />
+          <input type="submit" value={edit ? "Edit Todo" : "Add todo"} />
         </form>
         <Link to="/category">View Categories</Link>
+        {/* <button onClick={sortArray}>sort</button> */}
       </div>
       <div className="todos__body">
         {todos?.map((todo) => {
           return (
             <div key={todo.id} className="viewCategory">
-              {todo.name}
+              <div className="todoInfo">
+                <p>{todo.name}</p>
+                <span>{todo.c_name}</span>
+                <span
+                  onClick={() => changeTodoStatus(todo.id, todo.status_id)}
+                  className={
+                    todo.status_id === 1
+                      ? "open"
+                      : todo.status_id === 2
+                      ? "progress"
+                      : "complete"
+                  }
+                >
+                  <u>{todo.s_name}</u>
+                </span>
+              </div>
               <div className="icons">
                 <BsFillPencilFill
-                  style={{ cursor: "pointer" }}
-                  // onClick={() => editCategory(category.id, category)}
+                  style={{ cursor: "pointer", color: "gray" }}
+                  onClick={() => editTodo(todo)}
                 />
                 <MdDelete
                   onClick={() => deleteTodo(todo.id)}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color: "darkred" }}
                 />
               </div>
             </div>
