@@ -172,7 +172,16 @@ const Todos = () => {
       <div className="todos__body">
         {todos?.map((todo) => {
           return (
-            <div key={todo.id} className="viewCategory">
+            <div
+              key={todo.id}
+              className={
+                todo.status_id === 1
+                  ? "openShadow viewCategory"
+                  : todo.status_id === 2
+                  ? "progressShadow viewCategory"
+                  : "completeShadow viewCategory"
+              }
+            >
               <div className="todoInfo">
                 <p>{todo.name}</p>
                 <span>{todo.c_name}</span>

@@ -27,15 +27,21 @@
 .open {
   color: red;
 }
-
+.openShadow {
+  box-shadow: 5px 5px 5px rgba(255, 0, 0, 0.221);
+}
 .progress {
   color: blue;
 }
-
+.progressShadow {
+  box-shadow: 5px 5px 5px rgba(0, 0, 255, 0.221);
+}
 .complete {
   color: green;
 }
-
+.completeShadow {
+  box-shadow: 5px 5px 5px rgba(0, 128, 0, 0.221);
+}
 u {
   cursor: pointer;
 }
