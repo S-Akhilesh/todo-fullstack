@@ -9,6 +9,8 @@ import axios from "axios";
 const Category = () => {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState();
+  const [edit, setEdit] = useState(false);
+  const [id, setId] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,21 +38,35 @@ const Category = () => {
   const addCategory = async (e) => {
     e.preventDefault();
     if (category === "") return;
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/category/create`,
-      {
-        name: category,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    let response;
+    edit
+      ? (response = await axios.patch(
+          `${process.env.REACT_APP_API_URL}/category/${id}`,
+          {
+            name: category,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        ))
+      : (response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/category/create`,
+          {
+            name: category,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        ));
     if (response.status === 200) {
       getCategories();
     }
     setCategory("");
+    setEdit(false);
   };
 
   const deleteCategory = async (id) => {
@@ -67,9 +83,10 @@ const Category = () => {
     }
   };
 
-  const editCategory = (id, category) => {
-    setCategory(category);
-    deleteCategory(id);
+  const editCategory = async (id, category) => {
+    setEdit(true);
+    setCategory(category.name);
+    setId(id);
   };
 
   useEffect(() => {
@@ -99,9 +116,13 @@ const Category = () => {
             {category.name}
             <div className="icons">
               <BsFillPencilFill
+                style={{ cursor: "pointer" }}
                 onClick={() => editCategory(category.id, category)}
               />
-              <MdDelete onClick={() => deleteCategory(category.id)} />
+              <MdDelete
+                onClick={() => deleteCategory(category.id)}
+                style={{ cursor: "pointer" }}
+              />
             </div>
           </div>
         );
