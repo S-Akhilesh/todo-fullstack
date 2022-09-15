@@ -8,7 +8,7 @@
   font-family: "Poppins", sans-serif;
 }
 
-.category a {
+a {
   text-decoration: none;
   color: #000;
   border: 1px solid #000;
@@ -17,24 +17,25 @@
   border-radius: 5px;
 }
 
-.category a:hover {
+a:hover {
   color: green;
   border: 1px solid green;
 }
 
-.category form {
+form {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.category form input {
+form input,
+select {
   padding: 10px;
   outline: none;
   border: none;
 }
 
-.category form input:nth-child(1) {
+form input:nth-child(1) {
   width: 300px;
 }
 

@@ -1,0 +1,13 @@
+.todos {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.todos__header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
