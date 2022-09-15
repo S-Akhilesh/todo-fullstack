@@ -1,0 +1,64 @@
+.registration {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registration__card {
+  background: #e1e2e7;
+  width: 350px;
+  border: 1px solid #000;
+  border-radius: 10px;
+}
+
+.registration__header {
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.registration__box {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #000;
+
+  align-items: center;
+}
+
+.active {
+  background: #09702c;
+  color: white;
+  border-radius: 10px 10px 0 0;
+
+  border-bottom: 1px solid #000;
+}
+
+.registration__body {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  height: 200px;
+}
+
+.registration__body input {
+  padding: 10px;
+  width: 250px;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 8px;
+}
+
+input[type="submit"] {
+  background: #4a63a9;
+  color: aliceblue;
+  cursor: pointer;
+}
